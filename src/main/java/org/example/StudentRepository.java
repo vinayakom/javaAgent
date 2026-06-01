@@ -1,19 +1,20 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class StudentRepository {
-    private final Map<Integer, Student> store = new HashMap<>();
-    private int nextId = 1;
+    private final Map<Integer, Student> store = new ConcurrentHashMap<>();
+    private final AtomicInteger nextId = new AtomicInteger(1);
 
     // CREATE
     public Student create(String name, int age) {
-        Student student = new Student(nextId++, name, age);
-        store.put(student.getId(), student);
+        var student = new Student(nextId.getAndIncrement(), name, age);
+        store.put(student.id(), student);
         return student;
     }
 
@@ -24,15 +25,13 @@ public class StudentRepository {
 
     // READ (all)
     public List<Student> findAll() {
-        return new ArrayList<>(store.values());
+        return List.copyOf(store.values());
     }
 
     // UPDATE
     public boolean update(int id, String name, int age) {
-        Student student = store.get(id);
-        if (student == null) return false;
-        student.setName(name);
-        student.setAge(age);
+        if (!store.containsKey(id)) return false;
+        store.put(id, new Student(id, name, age));
         return true;
     }
 

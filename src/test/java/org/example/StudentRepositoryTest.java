@@ -23,20 +23,20 @@ class StudentRepositoryTest {
         Student s1 = repo.create("Alice", 20);
         Student s2 = repo.create("Bob", 22);
 
-        assertEquals(1, s1.getId());
-        assertEquals(2, s2.getId());
-        assertEquals("Alice", s1.getName());
-        assertEquals(20, s1.getAge());
+        assertEquals(1, s1.id());
+        assertEquals(2, s2.id());
+        assertEquals("Alice", s1.name());
+        assertEquals(20, s1.age());
     }
 
     // READ - findById
     @Test
     void findById_returnsStudent_whenExists() {
         Student created = repo.create("Alice", 20);
-        Optional<Student> found = repo.findById(created.getId());
+        Optional<Student> found = repo.findById(created.id());
 
         assertTrue(found.isPresent());
-        assertEquals(created.getId(), found.get().getId());
+        assertEquals(created.id(), found.get().id());
     }
 
     @Test
@@ -65,12 +65,12 @@ class StudentRepositoryTest {
     @Test
     void update_modifiesStudent_whenExists() {
         Student created = repo.create("Alice", 20);
-        boolean result = repo.update(created.getId(), "Alicia", 21);
+        boolean result = repo.update(created.id(), "Alicia", 21);
 
         assertTrue(result);
-        Student updated = repo.findById(created.getId()).get();
-        assertEquals("Alicia", updated.getName());
-        assertEquals(21, updated.getAge());
+        Student updated = repo.findById(created.id()).get();
+        assertEquals("Alicia", updated.name());
+        assertEquals(21, updated.age());
     }
 
     @Test
@@ -83,10 +83,10 @@ class StudentRepositoryTest {
     @Test
     void delete_removesStudent_whenExists() {
         Student created = repo.create("Alice", 20);
-        boolean result = repo.delete(created.getId());
+        boolean result = repo.delete(created.id());
 
         assertTrue(result);
-        assertFalse(repo.findById(created.getId()).isPresent());
+        assertFalse(repo.findById(created.id()).isPresent());
         assertTrue(repo.findAll().isEmpty());
     }
 
