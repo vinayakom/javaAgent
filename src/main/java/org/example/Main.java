@@ -8,9 +8,15 @@ public class Main {
         Student s1 = repo.create("Alice", 20);
         Student s2 = repo.create("Bob", 22);
         Student s3 = repo.create("Charlie", 19);
+        Student s4 = repo.create("Diana", 21);
+        Student s5 = repo.create("Ethan", 23);
+        Student s6 = repo.create("Fiona", 18);
         System.out.println("Created: " + s1);
         System.out.println("Created: " + s2);
         System.out.println("Created: " + s3);
+        System.out.println("Created: " + s4);
+        System.out.println("Created: " + s5);
+        System.out.println("Created: " + s6);
 
         // READ ALL
         System.out.println("\nAll students:");
